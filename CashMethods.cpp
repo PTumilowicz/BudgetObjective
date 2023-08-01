@@ -2,7 +2,8 @@
 
 bool CashMethods::validateAmount(std::string &amount)
 {
-	int counter = 0;
+	int counter = 0, dotPosition;
+	std::string decimalRest;
 
 	if (amount.length() == 0)
 	{
@@ -25,6 +26,19 @@ bool CashMethods::validateAmount(std::string &amount)
 		if (!isdigit(sign) && sign != '.')
 		{
 			std::cout << "Only decimal numbers allowed. Try again." << std::endl;
+			return false;
+		}
+	}
+
+	dotPosition = amount.find('.');
+
+	if (dotPosition != std::string::npos)
+	{
+		decimalRest = amount.substr(dotPosition + 1);
+
+		if (decimalRest.length() > 2)
+		{
+			std::cout << "Only numbers with two decimal places allowed. Try again." << std::endl;
 			return false;
 		}
 	}
