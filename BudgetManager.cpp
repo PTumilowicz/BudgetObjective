@@ -107,7 +107,6 @@ Operation BudgetManager::addOperationDetails(const Type &type)
     }
     while (!CashMethods::validateAmount(tempAmount));
 
-    // TODO: Something wrong while converting to double.
     operation.amount = stod(tempAmount);
 
     return operation;

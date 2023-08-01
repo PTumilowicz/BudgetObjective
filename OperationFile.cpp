@@ -43,8 +43,18 @@ std::vector <Operation> OperationFile::loadOperationsFromFile(const int loggedUs
 	return operations;
 }
 
+
 bool OperationFile::addOperationToFile(const Operation &operation)
 {
+    int precision = 2;
+    std::string operationAmount = std::to_string(operation.amount);
+    size_t dotPosition = operationAmount.find('.');
+
+    if (dotPosition != std::string::npos && dotPosition + precision + 1 < operationAmount.length())
+    {
+        operationAmount = operationAmount.substr(0, dotPosition + precision + 1);
+    }
+
     xmlDoc.LoadFile(getFileName().c_str());
     checkRootNode();
 
@@ -65,7 +75,7 @@ bool OperationFile::addOperationToFile(const Operation &operation)
     pElement->SetText(operation.item.c_str());
 
     pElement = pOperation->InsertNewChildElement("amount");
-    pElement->SetText(operation.amount);
+    pElement->SetText(operationAmount.c_str());
 
     tinyxml2::XMLError eResult = xmlDoc.SaveFile(getFileName().c_str());
 
